@@ -3,6 +3,7 @@ package com.dev;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,8 +27,12 @@ public class LoginServlet extends HttpServlet {
         out.println("<h1 >" + email+ " " + password + "</h1>");
 
         if (email.equals("dev@gmail.com") && password.equals("dev123")){
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("auth/home.jsp");
-            requestDispatcher.forward(req,resp);
+            Cookie cookie = new Cookie("email", email);
+            cookie.setMaxAge(2);
+            resp.addCookie(cookie);
+//            RequestDispatche  r requestDispatcher = req.getRequestDispatcher("home");
+//            requestDispatcher.forward(req,resp);
+            resp.sendRedirect("home");
         }else {
             out.println("ERROR");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("auth/error.jsp");
